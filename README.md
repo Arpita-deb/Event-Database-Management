@@ -55,39 +55,41 @@ The primary objective of this event management database is to provide an efficie
   
 * **2. Relations:**
 
-  * Event with Event_Type: Many-to-One (M:1)
+  * Event with Event_Type: _Many-to-One (M:1)_
 
     Each event is associated with a specific event type (e.g., conference, concert, workshop), but each event type can have multiple events. 
   
-  * Event with Venue: Many-to-One (M:1)
+  * Event with Venue: _Many-to-One (M:1)_
   
-  Each event takes place at a specific venue, but a venue can host multiple events. 
+    Each event takes place at a specific venue, but a venue can host multiple events. 
   
-  * Event with Partner: Many-to-Many (M:M)
+  * Event with Partner: _Many-to-Many (M:M)_
   
-  An event can have multiple partners, and each partner can be associated with a multiple events.
+    An event can have multiple partners, and each partner can be associated with a multiple events.
   
-  * Event with Organization: Many-to-One (M:1)
+  * Event with Organization: _Many-to-One (M:1)_
   
-  Each event is hosted by one organization but one organization can host multiple events. 
+    Each event is hosted by one organization but one organization can host multiple events. 
 
-  * Employee with Organization: Many-to-One (M:1)
+  * Employee with Organization: _Many-to-One (M:1)_
   
-  Each employee works for one organization but one organization can have multiple employees.
+    Each employee works for one organization but one organization can have multiple employees.
   
-  * Event with Employee: Many-to-Many (M:M)
+  * Event with Employee: _Many-to-Many (M:M)_
   
-  Each event can have multiple employees assigned to it, and each employee can be associated with multiple events. 
+    Each event can have multiple employees assigned to it, and each employee can be associated with multiple events. 
   
-  * Event with Ticket: One-to-Many (1:M)
+  * Event with Ticket: _One-to-Many (1:M)_
   
-  Each event can offer multiple types of tickets (e.g., VIP, General Admission). But one type of ticket can belong to only one event.
+    Each event can offer multiple types of tickets (e.g., VIP, General Admission). But one type of ticket can belong to only one event.
   
-  * Ticket with Attendee: Many-to-Many (M:M)
+  * Ticket with Attendee: _Many-to-Many (M:M)_
   
-  Each ticket can be purchased by multiple attendees and each attendee can have multiple tickets. 
+    Each ticket can be purchased by multiple attendees and each attendee can have multiple tickets. 
 
 * **3. Database Normalization:**
 All the tables are normalized upto 3rd normal form. A detailed description of the Normalization Process is available [here]().
 
 * **4. Entity Relation Diagram (ERD):**
+
+![EventSphere Event Management Database schema (1)](https://github.com/user-attachments/assets/f5df2a5c-f12c-446a-ae95-770985262b1f)
