@@ -88,7 +88,7 @@ The primary objective of this event management database is to provide an efficie
     Each ticket can be purchased by multiple attendees and each attendee can have multiple tickets. 
 
 * **3. Database Normalization:**
-All the tables are normalized upto 3rd normal form. A detailed description of the Normalization Process is available [here]().
+All the tables are normalized upto 3rd normal form. A detailed description of the Normalization Process is available [here](https://docs.google.com/document/d/1BYkai8_n01Gea65rLc9-pHJJNjlRuXk4NA_NqB9BUo0/edit?usp=sharing).
 
 * **4. Entity Relation Diagram (ERD):**
 
