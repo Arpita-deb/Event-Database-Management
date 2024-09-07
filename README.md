@@ -29,7 +29,7 @@ The primary objective of this event management database is to provide an efficie
 
 ### Part 1 : Database Schema Design
 
-* **1. Entities:**
+**1. Entities:**
 
   * Event: _event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), budget_estimated, budget_actual, description, start_date, end_date, status, estimated_attendance, actual_attendance_
   
@@ -53,7 +53,7 @@ The primary objective of this event management database is to provide an efficie
   
   * Event_Employee Junction: _event_id,  employee_id, task, start_date, deadline, task_completed_
   
-* **2. Relations:**
+**2. Relations:**
 
   * Event with Event_Type: _Many-to-One (M:1)_
 
@@ -87,9 +87,9 @@ The primary objective of this event management database is to provide an efficie
   
     Each ticket can be purchased by multiple attendees and each attendee can have multiple tickets. 
 
-* **3. Database Normalization:**
+**3. Database Normalization:**
 All the tables are normalized upto 3rd normal form. A detailed description of the Normalization Process is available [here](https://docs.google.com/document/d/1BYkai8_n01Gea65rLc9-pHJJNjlRuXk4NA_NqB9BUo0/edit?usp=sharing).
 
-* **4. Entity Relation Diagram (ERD):**
+**4. Entity Relation Diagram (ERD):**
 
 ![EventSphere Event Management Database schema (1)](https://github.com/user-attachments/assets/f5df2a5c-f12c-446a-ae95-770985262b1f)
