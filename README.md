@@ -1,4 +1,4 @@
-# PrimeTime Event Solutions Database Design
+# EventSphere Event Management Database Design
 
 ## Introduction:
 
@@ -30,6 +30,64 @@ The primary objective of this event management database is to provide an efficie
 ### Part 1 : Database Schema Design
 
 * **1. Entities:**
+
+  * Event: event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), budget_estimated, budget_actual, description, start_date, end_date, status, estimated_attendance, actual_attendance
+  
+  * Venue: venue_id (pk), capacity, address_line, city, state, zip_code, country
+  
+  * Attendee: attendee_id (pk), first_name, last_name, email, phone
+  
+  * Ticket: ticket_id (pk), event_id (fk), price, ticket_type
+  
+  * Employee: employee_id (pk), organization_id (fk), first_name, last_name, job_title, email
+  
+  * Organization: organization_id (pk), name, contact_person, phone, email
+  
+  * Partner: partner_id (pk), name, email, phone
+  
+  * Event_Type: event_type_id (pk), event_type_name
+  
+  * Event_Partner Junction: event_id (fk), partner_id (fk), role
+  
+  * Ticket_Attendee Junction: ticket_id (fk), attendee_id, purchase_date, expiry_date
+  
+  * Event_Employee Junction: event_id,  employee_id, task, start_date, deadline, task_completed
+  
 * **2. Relations:**
+
+  * Event with Event_Type: Many-to-One (M:1)
+
+    Each event is associated with a specific event type (e.g., conference, concert, workshop), but each event type can have multiple events. 
+  
+  * Event with Venue: Many-to-One (M:1)
+  
+  Each event takes place at a specific venue, but a venue can host multiple events. 
+  
+  * Event with Partner: Many-to-Many (M:M)
+  
+  An event can have multiple partners, and each partner can be associated with a multiple events.
+  
+  * Event with Organization: Many-to-One (M:1)
+  
+  Each event is hosted by one organization but one organization can host multiple events. 
+
+  * Employee with Organization: Many-to-One (M:1)
+  
+  Each employee works for one organization but one organization can have multiple employees.
+  
+  * Event with Employee: Many-to-Many (M:M)
+  
+  Each event can have multiple employees assigned to it, and each employee can be associated with multiple events. 
+  
+  * Event with Ticket: One-to-Many (1:M)
+  
+  Each event can offer multiple types of tickets (e.g., VIP, General Admission). But one type of ticket can belong to only one event.
+  
+  * Ticket with Attendee: Many-to-Many (M:M)
+  
+  Each ticket can be purchased by multiple attendees and each attendee can have multiple tickets. 
+
 * **3. Database Normalization:**
+All the tables are normalized upto 3rd normal form. A detailed description of the Normalization Process is available [here]().
+
 * **4. Entity Relation Diagram (ERD):**
