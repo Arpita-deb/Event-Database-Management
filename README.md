@@ -31,27 +31,27 @@ The primary objective of this event management database is to provide an efficie
 
 * **1. Entities:**
 
-  * Event: event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), budget_estimated, budget_actual, description, start_date, end_date, status, estimated_attendance, actual_attendance
+  * Event: _event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), budget_estimated, budget_actual, description, start_date, end_date, status, estimated_attendance, actual_attendance_
   
-  * Venue: venue_id (pk), capacity, address_line, city, state, zip_code, country
+  * Venue: _venue_id (pk), capacity, address_line, city, state, zip_code, country_
   
-  * Attendee: attendee_id (pk), first_name, last_name, email, phone
+  * Attendee: _attendee_id (pk), first_name, last_name, email, phone_
   
-  * Ticket: ticket_id (pk), event_id (fk), price, ticket_type
+  * Ticket: _ticket_id (pk), event_id (fk), price, ticket_type_
   
-  * Employee: employee_id (pk), organization_id (fk), first_name, last_name, job_title, email
+  * Employee: _employee_id (pk), organization_id (fk), first_name, last_name, job_title, email_
   
-  * Organization: organization_id (pk), name, contact_person, phone, email
+  * Organization: _organization_id (pk), name, contact_person, phone, email_
   
-  * Partner: partner_id (pk), name, email, phone
+  * Partner: _partner_id (pk), name, email, phone_
   
-  * Event_Type: event_type_id (pk), event_type_name
+  * Event_Type: _event_type_id (pk), event_type_name_
   
-  * Event_Partner Junction: event_id (fk), partner_id (fk), role
+  * Event_Partner Junction: _event_id (fk), partner_id (fk), role_
   
-  * Ticket_Attendee Junction: ticket_id (fk), attendee_id, purchase_date, expiry_date
+  * Ticket_Attendee Junction: _ticket_id (fk), attendee_id, purchase_date, expiry_date_
   
-  * Event_Employee Junction: event_id,  employee_id, task, start_date, deadline, task_completed
+  * Event_Employee Junction: _event_id,  employee_id, task, start_date, deadline, task_completed_
   
 * **2. Relations:**
 
