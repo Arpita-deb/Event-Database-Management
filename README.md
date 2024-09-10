@@ -104,7 +104,7 @@ Using Data Definition Language (DDL), the EventSphere Database and its leaf tabl
 
 **2. Populating the tables:**
 
-Using Data Manipulation Language (DML), the EventSphere Database and its leaf tables are created. The script is available in the Script folder. 
+Using Data Manipulation Language (DML), the EventSphere Database and its leaf tables are populated with synthetic data. The script is available in the Script folder. 
 
 Most of the data is generated through Mockaroo, which enabled me to simulate the real world scenario by generating random demographhic data for employees, attendees, numbers in ranges etc faster. 
 
@@ -116,7 +116,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  event_ID | INT PRIMARY KEY | Unique identifier of event |
+|  event_ID | INT PRIMARY KEY NOT NULL | Unique identifier of event |
 |  event_Type_ID | INT NOT NULL | FOREIGN KEY to the Event_Type table |
 |  organization_ID | INT NOT NULL | FOREIGN KEY to the Organization table |
 |  venue_ID | INT NOT NULL | FOREIGN KEY to the Venue table |
@@ -146,82 +146,82 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-| attendee_ID | INT PRIMARY KEY NOT NULL ||
-| first_name  | VARCHAR(50) NOT NULL ||
-| last_name | VARCHAR(50) NOT NULL ||
-| email| VARCHAR(50) NOT NULL ||
-| phone | VARCHAR(25) NULL ||
+| attendee_ID | INT PRIMARY KEY NOT NULL | Unique identifier of attendee |
+| first_name  | VARCHAR(50) NOT NULL | First Name |
+| last_name | VARCHAR(50) NOT NULL | Last Name |
+| email| VARCHAR(50) NOT NULL | Email |
+| phone | VARCHAR(25) NULL | Phone number |
 
 4. Ticket
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  ticket_ID |INT PRIMARY KEY NOT NULL ||
-|  event_ID |INT FOREIGN KEY REFERENCES Event(Event_ID ||
-|  price| MONEY NOT NULL||
-|  ticket_type| VARCHAR(20) NOT NULL ||
+|  ticket_ID |INT PRIMARY KEY NOT NULL | Unique identifier of ticket |
+|  event_ID |INT NULL | FOREIGN KEY to the Event table|
+|  price| MONEY NOT NULL | Price of the ticket ($) |
+|  ticket_type| VARCHAR(20) NOT NULL | Type of the ticket('General Admission', 'VIP', 'Early Bird', 'Student', 'All-Access') |
 
 5. Employee
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  employee_ID | INT PRIMARY KEY NOT NULL ||
-| organization_ID | INT FOREIGN KEY REFERENCES Organization(organization_ID) NOT NULL ||
-|  first_name |VARCHAR(50) NOT NULL ||
-| last_name| VARCHAR(50) NOT NULL ||
-|  job_title |VARCHAR(50) NOT NULL ||
-|  email |VARCHAR(50) NOT NULL ||
+|  employee_ID | INT PRIMARY KEY NOT NULL | Unique identifier of employee |
+|  organization_ID | INT NOT NULL | FOREIGN KEY to the Organization table |
+|  first_name |VARCHAR(50) NOT NULL | First Name |
+|  last_name| VARCHAR(50) NOT NULL | Last Name |
+|  job_title |VARCHAR(50) NOT NULL | Job title |
+|  email |VARCHAR(50) NOT NULL | Email |
 
 6. Organization
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  organization_ID |INT PRIMARY KEY NOT NULL ||
-|  name |VARCHAR(50) NOT NULL ||
-|  contact_person |VARCHAR(50) ||
-|  email |VARCHAR(50) NOT NULL ||
-|  phone |VARCHAR(25) NULL ||
+|  organization_ID |INT PRIMARY KEY NOT NULL | Unique identifier of organization |
+|  name |VARCHAR(50) NOT NULL | Name of the organization |
+|  contact_person |VARCHAR(50) | Contact Person for that organization |
+|  email |VARCHAR(50) NOT NULL | Email |
+|  phone |VARCHAR(25) NULL | Phone number |
 
 7. Partner
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  partner_ID |INT PRIMARY KEY  NOT NULL ||
-| name |VARCHAR(50) NOT NULL ||
-|  email |VARCHAR(50) NOT NULL ||
-|  phone |VARCHAR(25) NULL ||
+|  partner_ID |INT PRIMARY KEY  NOT NULL | Unique idenitfier of Partner |
+|  name |VARCHAR(50) NOT NULL | Name of the Partner |
+|  email |VARCHAR(50) NOT NULL | Email |
+|  phone |VARCHAR(25) NULL | Phone number |
 
 8. Event_Type
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  event_type_ID INT PRIMARY KEY NOT NULL ||
-|  event_type_name VARCHAR(50) NULL ||
+|  event_type_ID | INT PRIMARY KEY NOT NULL | Unique Identifier of event_type table |
+|  event_type_name | VARCHAR(50) NULL | Types of events (Virtual, In-Person, Hybrid, Conference, Workshop, Webinar, Seminar, Trade Show, Networking Event, Product Launch) |
 
 9. Event_Partner
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  event_ID |INT FOREIGN KEY REFERENCES Event(Event_ID) NOT NULL ||
-|  partner_ID |INT FOREIGN KEY REFERENCES Partner(Partner_ID) NOT NULL ||
-|  role |VARCHAR(50) NOT NULL ||
+|  event_ID | INT NOT NULL | FOREIGN KEY to the Event table |
+|  partner_ID | INT NOT NULL | FOREIGN KEY to the Partner table |
+|  role | VARCHAR(50) NOT NULL | Role of the Partner |
 
 10. Event_Employee
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  event_ID | INT FOREIGN KEY REFERENCES Event(Event_ID) NOT NULL ||
-|  employee_ID | INT FOREIGN KEY REFERENCES Employee(Employee_ID) NOT NULL ||
-|  task | VARCHAR(120) NOT NULL ||
-|  start_date | DATE NOT NULL ||
-|  deadline | DATE NULL ||
-|  task_completed | BIT NOT NULL ||
+|  event_ID | INT NOT NULL | FOREIGN KEY to the Event table |
+|  employee_ID | INT NOT NULL | FOREIGN KEY to the Employee table |
+|  task | VARCHAR(120) NOT NULL | Name of the Task |
+|  start_date | DATE NOT NULL | Start date of the task |
+|  deadline | DATE NULL | Deadline for the task |
+|  task_completed | BIT NOT NULL | 0 = Not Completed, 1 = Completed |
 
 11. Ticket_Attendee
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  ticket_ID | INT FOREIGN KEY REFERENCES  Ticket(ticket_ID) NOT NULL ||
-|  attendee_ID | INT FOREIGN KEY REFERENCES Attendee(attendee_ID) NOT NULL ||
-|  purchase_date | DATE NOT NULL ||
-|  expiry_date | DATE NULL ||
+|  ticket_ID | INT NOT NULL | FOREIGN KEY to the Ticket table |
+|  attendee_ID | INT NOT NULL | FOREIGN KEY to the Attendee table |
+|  purchase_date | DATE NOT NULL | Date of purchasing the ticket |
+|  expiry_date | DATE NULL | Expiry date of the ticket(Optional) |
