@@ -30,7 +30,7 @@ The primary objective of this event management database is to provide an efficie
 ### Part 1 : Database Schema Design
 
 **1. Entities:**
-
+The entitities and relations between them will give us a **conceptual design** of the database.
   * Event: _event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), budget_estimated, budget_actual, description, start_date, end_date, status, estimated_attendance, actual_attendance_
   
   * Venue: _venue_id (pk), capacity, address_line, city, state, zip_code, country_
@@ -92,4 +92,136 @@ All the tables are normalized upto 3rd normal form. A detailed description of th
 
 **4. Entity Relation Diagram (ERD):**
 
+This is the **logical design** of the database.
 ![EventSphere Event Management Database schema (1)](https://github.com/user-attachments/assets/f5df2a5c-f12c-446a-ae95-770985262b1f)
+
+
+### Part 2 : Implementing the database in SQL Server using Data Definition Language (DDL)
+
+**1. Creating the database and the tables:**
+
+Using Data Definition Language (DDL), the EventSphere Database and its leaf tables are created. The script is available in the Script folder.
+
+**2. Populating the tables:**
+
+Using Data Manipulation Language (DML), the EventSphere Database and its leaf tables are created. The script is available in the Script folder. 
+
+Most of the data is generated through Mockaroo, which enabled me to simulate the real world scenario by generating random demographhic data for employees, attendees, numbers in ranges etc faster. 
+
+Here in addition to simple INSERT and UPDATE Statements, complex calculations has been performed to generate more data points (in case of 'Event' table). These calculations are used to create records for budget, number of attendees and dates for different type of events (eg. virtual, in person, seminar, product lauch etc).
+
+**3. Data Description:**
+
+1. Event
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  event_ID | INT PRIMARY KEY | Unique identifier of event |
+|  event_Type_ID | INT NOT NULL | FOREIGN KEY to the Event_Type table |
+|  organization_ID | INT NOT NULL | FOREIGN KEY to the Organization table |
+|  venue_ID | INT NOT NULL | FOREIGN KEY to the Venue table |
+|  start_date | DATE NOT NULL | Start date of the event |
+|  end_date | DATE NULL | End date of the event |
+|  budget_estimated | MONEY NULL | Estimated budget of the event |
+|  budget_actual | MONEY NULL | Actual budget of the event |
+|  description | TEXT NULL | Optional description / title of the event |
+|  status| VARCHAR(20) NULL | 'Complete', 'Cancelled', 'Scheduled', 'Re-Scheduled' |
+|  estimated_attendance | INT NULL | Estimated Number of attendees attended the event |
+|  actual_attendance | INT NULL | Actual Number of attendees attending the event |
+  
+2. Venue
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  venue_ID | INT PRIMARY KEY NOT NULL | Unique identifier of venue |
+|  capacity | INT NOT NULL | Capacity of the venue (number of people they can accomodate) |
+|  address_line | VARCHAR(60) NULL | Street Address of the venue |
+|  city | VARCHAR(30) NOT NULL | City |
+|  state | VARCHAR(30) NOT NULL | State |
+|  postal_code | VARCHAR(15) NOT NULL | Postal Code |
+|  country | VARCHAR(30) NOT NULL | Country |
+|  OnlineFlag | BIT | 0 = Offline Event, 1 = Online Event |
+  
+3. Attendee
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+| attendee_ID | INT PRIMARY KEY NOT NULL ||
+| first_name  | VARCHAR(50) NOT NULL ||
+| last_name | VARCHAR(50) NOT NULL ||
+| email| VARCHAR(50) NOT NULL ||
+| phone | VARCHAR(25) NULL ||
+
+4. Ticket
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  ticket_ID |INT PRIMARY KEY NOT NULL ||
+|  event_ID |INT FOREIGN KEY REFERENCES Event(Event_ID ||
+|  price| MONEY NOT NULL||
+|  ticket_type| VARCHAR(20) NOT NULL ||
+
+5. Employee
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  employee_ID | INT PRIMARY KEY NOT NULL ||
+| organization_ID | INT FOREIGN KEY REFERENCES Organization(organization_ID) NOT NULL ||
+|  first_name |VARCHAR(50) NOT NULL ||
+| last_name| VARCHAR(50) NOT NULL ||
+|  job_title |VARCHAR(50) NOT NULL ||
+|  email |VARCHAR(50) NOT NULL ||
+
+6. Organization
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  organization_ID |INT PRIMARY KEY NOT NULL ||
+|  name |VARCHAR(50) NOT NULL ||
+|  contact_person |VARCHAR(50) ||
+|  email |VARCHAR(50) NOT NULL ||
+|  phone |VARCHAR(25) NULL ||
+
+7. Partner
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  partner_ID |INT PRIMARY KEY  NOT NULL ||
+| name |VARCHAR(50) NOT NULL ||
+|  email |VARCHAR(50) NOT NULL ||
+|  phone |VARCHAR(25) NULL ||
+
+8. Event_Type
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  event_type_ID INT PRIMARY KEY NOT NULL ||
+|  event_type_name VARCHAR(50) NULL ||
+
+9. Event_Partner
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  event_ID |INT FOREIGN KEY REFERENCES Event(Event_ID) NOT NULL ||
+|  partner_ID |INT FOREIGN KEY REFERENCES Partner(Partner_ID) NOT NULL ||
+|  role |VARCHAR(50) NOT NULL ||
+
+10. Event_Employee
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  event_ID | INT FOREIGN KEY REFERENCES Event(Event_ID) NOT NULL ||
+|  employee_ID | INT FOREIGN KEY REFERENCES Employee(Employee_ID) NOT NULL ||
+|  task | VARCHAR(120) NOT NULL ||
+|  start_date | DATE NOT NULL ||
+|  deadline | DATE NULL ||
+|  task_completed | BIT NOT NULL ||
+
+11. Ticket_Attendee
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  ticket_ID | INT FOREIGN KEY REFERENCES  Ticket(ticket_ID) NOT NULL ||
+|  attendee_ID | INT FOREIGN KEY REFERENCES Attendee(attendee_ID) NOT NULL ||
+|  purchase_date | DATE NOT NULL ||
+|  expiry_date | DATE NULL ||
