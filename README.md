@@ -222,9 +222,9 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  attendee_ID | INT NULL | Refers to the Attendee table |
-|  event_ID | INT NULL | Refers to the Event table |
-|  ticket_ID | INT NULL | Refers to the Ticket table |
+|  attendee_ID | INT NULL | FOREIGN KEY to the Attendee table |
+|  event_ID | INT NOT NULL | Refers to the Event table |
+|  ticket_ID | VARCHAR(32) NULL | Refers to the Ticket table |
 |  purchase_date | DATE NULL | Date of purchasing the ticket |
 |  expiry_date | DATE NULL | Expiry date of the ticket |
 
@@ -242,3 +242,4 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 1. One important limitation of this database is that for some tables like attendee, event, or tickets its not properly scaled.
 2. There might appear some discrepency in record count when applying aggregate functions.
+3. There are discrepency in actual_attendance in Event table and count of attendees from the Ticket_Attendee table which should return the same number of attendees but it doesn't. It partly limits the number of records to scale up too quickly.
