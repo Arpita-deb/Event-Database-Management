@@ -31,6 +31,7 @@ The primary objective of this event management database is to provide an efficie
 
 **1. Entities:**
 The entitities and relations between them will give us a **conceptual design** of the database.
+  
   * Event: _event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), budget_estimated, budget_actual, description, start_date, end_date, status, estimated_attendance, actual_attendance_
   
   * Venue: _venue_id (pk), capacity, address_line, city, state, zip_code, country_
@@ -98,21 +99,21 @@ This is the **logical design** of the database.
 
 ### Part 2 : Implementing the database in SQL Server using Data Definition Language (DDL)
 
-**1. Creating the database and the tables:**
+**Creating the database and the tables:**
 
 Using Data Definition Language (DDL), the EventSphere Database and its leaf tables are created. The script is available in the Script folder.
 
-**2. Populating the tables:**
+### Part 3 : Populating the database using Data Manipulation Language (DML)
 
 Using Data Manipulation Language (DML), the EventSphere Database and its leaf tables are populated with synthetic data. The script is available in the Script folder. 
 
-Most of the data is generated through Mockaroo, which enabled me to simulate the real world scenario by generating random demographhic data for employees, attendees, numbers in ranges etc faster. 
+Most of the data is generated through Mockaroo, which enabled me to simulate the real world scenario by generating random demographhic data for employees, attendees, numbers in ranges etc faster. In some cases, demographic data has been inserted from another database such as in Employee and Attendee table.
 
 Here in addition to simple INSERT and UPDATE Statements, complex calculations has been performed to generate more data points (in case of 'Event' table). These calculations are used to create records for budget, number of attendees and dates for different type of events (eg. virtual, in person, seminar, product lauch etc).
 
 **3. Data Description:**
 
-1. Event
+1. Event - 955 rows 12 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -129,7 +130,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  estimated_attendance | INT NULL | Estimated Number of attendees attended the event |
 |  actual_attendance | INT NULL | Actual Number of attendees attending the event |
   
-2. Venue
+2. Venue - 457 rows 8 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -142,7 +143,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  country | VARCHAR(30) NOT NULL | Country |
 |  OnlineFlag | BIT | 0 = Offline Event, 1 = Online Event |
   
-3. Attendee
+3. Attendee - 19972 rows 5 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -152,53 +153,53 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 | email| VARCHAR(50) NOT NULL | Email |
 | phone | VARCHAR(25) NULL | Phone number |
 
-4. Ticket
+4. Event_Tickets - 7640 rows 4 Columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  ticket_ID |INT PRIMARY KEY NOT NULL | Unique identifier of ticket |
-|  event_ID |INT NULL | FOREIGN KEY to the Event table|
-|  price| MONEY NOT NULL | Price of the ticket ($) |
-|  ticket_type| VARCHAR(20) NOT NULL | Type of the ticket('General Admission', 'VIP', 'Early Bird', 'Student', 'All-Access') |
+|  event_ID | INT NOT NULL | FOREIGN KEY to the Event table|
+|  ticket_ID | VARCHAR(32) NULL | Unique identifier of ticket |
+|  price | MONEY NOT NULL | Price of the ticket ($) |
+|  ticket_type| VARCHAR(20) NOT NULL | Type of the ticket ('Early-Bird','Student','All-Access','Virtual-Ticket','Group-Ticket','Day-Pass','General-Admission',VIP') |
 
-5. Employee
+5. Employee - 45017 rows 6 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
 |  employee_ID | INT PRIMARY KEY NOT NULL | Unique identifier of employee |
 |  organization_ID | INT NOT NULL | FOREIGN KEY to the Organization table |
-|  first_name |VARCHAR(50) NOT NULL | First Name |
-|  last_name| VARCHAR(50) NOT NULL | Last Name |
-|  job_title |VARCHAR(50) NOT NULL | Job title |
-|  email |VARCHAR(50) NOT NULL | Email |
+|  first_name | VARCHAR(50) NOT NULL | First Name |
+|  last_name | VARCHAR(50) NOT NULL | Last Name |
+|  job_title | VARCHAR(50) NOT NULL | Job title |
+|  email | VARCHAR(50) NOT NULL | Email |
 
-6. Organization
-
-| Column | Datatype | Description |
-| :--- | :--- | :--- |
-|  organization_ID |INT PRIMARY KEY NOT NULL | Unique identifier of organization |
-|  name |VARCHAR(50) NOT NULL | Name of the organization |
-|  contact_person |VARCHAR(50) | Contact Person for that organization |
-|  email |VARCHAR(50) NOT NULL | Email |
-|  phone |VARCHAR(25) NULL | Phone number |
-
-7. Partner
+6. Organization - 154 rows 5 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  partner_ID |INT PRIMARY KEY  NOT NULL | Unique idenitfier of Partner |
-|  name |VARCHAR(50) NOT NULL | Name of the Partner |
-|  email |VARCHAR(50) NOT NULL | Email |
-|  phone |VARCHAR(25) NULL | Phone number |
+|  organization_ID | INT PRIMARY KEY NOT NULL | Unique identifier of organization |
+|  name | VARCHAR(50) NOT NULL | Name of the organization |
+|  contact_person | VARCHAR(50) | Contact Person for that organization |
+|  email | VARCHAR(50) NOT NULL | Email |
+|  phone | VARCHAR(25) NULL | Phone number |
 
-8. Event_Type
+7. Partner - 183 rows 5 columns
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  partner_ID | INT PRIMARY KEY  NOT NULL | Unique idenitfier of Partner |
+|  name | VARCHAR(50) NOT NULL | Name of the Partner |
+|  email | VARCHAR(50) NOT NULL | Email |
+|  phone | VARCHAR(25) NULL | Phone number |
+
+8. Event_Type - 10 rows 2 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
 |  event_type_ID | INT PRIMARY KEY NOT NULL | Unique Identifier of event_type table |
 |  event_type_name | VARCHAR(50) NULL | Types of events (Virtual, In-Person, Hybrid, Conference, Workshop, Webinar, Seminar, Trade Show, Networking Event, Product Launch) |
 
-9. Event_Partner
+9. Event_Partner - 1328 rows 3 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -206,22 +207,38 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  partner_ID | INT NOT NULL | FOREIGN KEY to the Partner table |
 |  role | VARCHAR(50) NOT NULL | Role of the Partner |
 
-10. Event_Employee
+10. Event_Employee - 37107 rows 6 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
 |  event_ID | INT NOT NULL | FOREIGN KEY to the Event table |
 |  employee_ID | INT NOT NULL | FOREIGN KEY to the Employee table |
-|  task | VARCHAR(120) NOT NULL | Name of the Task |
-|  start_date | DATE NOT NULL | Start date of the task |
+|  task | VARCHAR(120) NULL | Name of the Task |
+|  start_date | DATE NULL | Start date of the task |
 |  deadline | DATE NULL | Deadline for the task |
-|  task_completed | BIT NOT NULL | 0 = Not Completed, 1 = Completed |
+|  task_completed | BIT NULL | 0 = Not Completed, 1 = Completed |
 
-11. Ticket_Attendee
+11. Ticket_Attendee - 20307 rows 5 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  ticket_ID | INT NOT NULL | FOREIGN KEY to the Ticket table |
-|  attendee_ID | INT NOT NULL | FOREIGN KEY to the Attendee table |
-|  purchase_date | DATE NOT NULL | Date of purchasing the ticket |
-|  expiry_date | DATE NULL | Expiry date of the ticket(Optional) |
+|  attendee_ID | INT NULL | Refers to the Attendee table |
+|  event_ID | INT NULL | Refers to the Event table |
+|  ticket_ID | INT NULL | Refers to the Ticket table |
+|  purchase_date | DATE NULL | Date of purchasing the ticket |
+|  expiry_date | DATE NULL | Expiry date of the ticket |
+
+### Part 4 : Optimizing the database by creating index, views, stored procedures and user defined functions 
+  
+
+## Resources:
+
+* [An Event Management Data Model](https://vertabelo.com/blog/how-to-plan-and-run-events-an-event-management-data-model/)
+* [How to Design a Database for Event Management](https://www.geeksforgeeks.org/how-to-design-a-database-for-event-management/)
+* [What is a Database Schema | Lucidchart](https://www.lucidchart.com/pages/database-diagram/database-schema)
+* [Building an Event Management System: Designing the Blueprint, Crafting the Schema, and Executing with SQL](https://medium.com/@tatibaevmurod/building-an-event-management-system-designing-the-blueprint-crafting-the-schema-and-executing-43ad2e45568e)
+
+## Limitations:
+
+1. One important limitation of this database is that for some tables like attendee, event, or tickets its not properly scaled.
+2. There might appear some discrepency in record count when applying aggregate functions.
