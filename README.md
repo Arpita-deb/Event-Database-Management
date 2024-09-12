@@ -143,7 +143,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  country | VARCHAR(30) NOT NULL | Country |
 |  OnlineFlag | BIT | 0 = Offline Event, 1 = Online Event |
   
-3. Attendee - 19972 rows 5 columns
+3. Attendee - 19,972 rows 5 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -153,16 +153,18 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 | email| VARCHAR(50) NOT NULL | Email |
 | phone | VARCHAR(25) NULL | Phone number |
 
-4. Event_Tickets - 7640 rows 4 Columns
+4. Event_Tickets* - 7,640 rows 4 Columns
+
+[*Note: This is a special table which gives all the possible combinations of events and ticket types with their associated price. This table has been used later to update ticket price for each attendee and events in Event_Ticket_Assignment table.]
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
 |  event_ID | INT NOT NULL | FOREIGN KEY to the Event table|
 |  ticket_ID | VARCHAR(32) NULL | Unique identifier of ticket |
 |  price | MONEY NOT NULL | Price of the ticket ($) |
-|  ticket_type| VARCHAR(20) NOT NULL | Type of the ticket ('Early-Bird','Student','All-Access','Virtual-Ticket','Group-Ticket','Day-Pass','General-Admission',VIP') |
+|  ticket_type| VARCHAR(50) NOT NULL | Type of the ticket ('Early-Bird','Student','All-Access','Virtual-Ticket','Group-Ticket','Day-Pass','General-Admission',VIP') |
 
-5. Employee - 45017 rows 6 columns
+5. Employee - 45,017 rows 6 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -199,7 +201,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  event_type_ID | INT PRIMARY KEY NOT NULL | Unique Identifier of event_type table |
 |  event_type_name | VARCHAR(50) NULL | Types of events (Virtual, In-Person, Hybrid, Conference, Workshop, Webinar, Seminar, Trade Show, Networking Event, Product Launch) |
 
-9. Event_Partner - 1315 rows 3 columns
+9. Event_Partner - 1,315 rows 3 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -207,7 +209,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  partner_ID | INT NOT NULL | FOREIGN KEY to the Partner table |
 |  role | VARCHAR(50) NOT NULL | Role of the Partner |
 
-10. Event_Employee - 37107 rows 6 columns
+10. Event_Employee - 37,107 rows 6 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -218,15 +220,17 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  deadline | DATE NULL | Deadline for the task |
 |  task_completed | BIT NULL | 0 = Not Completed, 1 = Completed |
 
-11. Ticket_Attendee - 20307 rows 5 columns
+11. Event_Ticket_Assignment - 4,63,720 rows 7 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  attendee_ID | INT NULL | FOREIGN KEY to the Attendee table |
-|  event_ID | INT NOT NULL | Refers to the Event table |
-|  ticket_ID | VARCHAR(32) NULL | Refers to the Ticket table |
+|  ticket_ID | GUID PRIMARY KEY | Unique Identifier of the Ticket table |
+|  attendee_ID | INT NOT NULL | FOREIGN KEY to the Attendee table |
+|  event_ID | INT NOT NULL | FOREIGN KEY to the Event table |
 |  purchase_date | DATE NULL | Date of purchasing the ticket |
 |  expiry_date | DATE NULL | Expiry date of the ticket |
+|  price | MONEY NULL | Price of the ticket ($) |
+|  ticket_type | VARCHAR(50) NULL | Type of the ticket ('Early-Bird','Student','All-Access','Virtual-Ticket','Group-Ticket','Day-Pass','General-Admission',VIP') |
 
 ### Part 4 : Optimizing the database by creating index, views, stored procedures and user defined functions 
   
