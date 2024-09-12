@@ -199,7 +199,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  event_type_ID | INT PRIMARY KEY NOT NULL | Unique Identifier of event_type table |
 |  event_type_name | VARCHAR(50) NULL | Types of events (Virtual, In-Person, Hybrid, Conference, Workshop, Webinar, Seminar, Trade Show, Networking Event, Product Launch) |
 
-9. Event_Partner - 1328 rows 3 columns
+9. Event_Partner - 1315 rows 3 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -241,5 +241,5 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 ## Limitations:
 
 1. One important limitation of this database is that for some tables like attendee, event, or tickets its not properly scaled.
-2. There might appear some discrepency in record count when applying aggregate functions.
-3. There are discrepency in actual_attendance in Event table and count of attendees from the Ticket_Attendee table which should return the same number of attendees but it doesn't. It partly limits the number of records to scale up too quickly.
+2. There might appear some discrepency in record count when applying aggregate functions or joins.
+3. There is discrepency in actual_attendance from Event table and the count of attendees/tickets from the Ticket_Attendee table which should return the same number of attendees but it doesn't. 
