@@ -94,8 +94,7 @@ All the tables are normalized upto 3rd normal form. A detailed description of th
 **4. Entity Relation Diagram (ERD):**
 
 This is the **logical design** of the database.
-![EventSphere Event Management Database schema (1)](https://github.com/user-attachments/assets/f5df2a5c-f12c-446a-ae95-770985262b1f)
-
+![EventSphere Event Management Database schema](https://github.com/user-attachments/assets/968cc36b-a49c-49f3-9820-fb7c75246be2)
 
 ### Part 2 : Implementing the database in SQL Server using Data Definition Language (DDL)
 
@@ -111,9 +110,15 @@ Most of the data is generated through Mockaroo, which enabled me to simulate the
 
 Here in addition to simple INSERT and UPDATE Statements, complex calculations has been performed to generate more data points (in case of 'Event' table). These calculations are used to create records for budget, number of attendees and dates for different type of events (eg. virtual, in person, seminar, product lauch etc).
 
-**3. Data Description:**
+#### 3. Data Description:
 
-1. Event - 955 rows 12 columns
+**1. Event Table**
+
+  * Size: 955 rows, 12 columns
+
+  * Purpose: The Event table stores all the essential details about each event, such as the hosting organization, event date, type, venue, budget, attendee count, and current status.
+
+  * Importance: This table is crucial for analyzing trends, like which types of events are most common, which organizations host the most events, and how event budgets are managed. The data helps in planning future events, controlling costs, and understanding venue utilization. By tracking a decade's worth of data (2010-2024), companies can make data-driven decisions to improve event planning and execution.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -129,8 +134,14 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  status | VARCHAR(20) NULL | 'Complete', 'Cancelled', 'Scheduled', 'Re-Scheduled' |
 |  estimated_attendance | INT NULL | Estimated Number of attendees attended the event |
 |  actual_attendance | INT NULL | Actual Number of attendees attending the event |
-  
-2. Venue - 458 rows 8 columns
+
+**2. Venue** 
+
+  * Size: 458 rows, 8 columns
+
+  * Purpose: The Venue table records details about each venue, including its capacity, geographic location, and whether it's a physical location or a virtual space. There is a special venue id 757 is associated with Virtual Events. It doesn't have any geographic location but its comparatively high capacity suggests that a large number of people can attend an online event (e.g. Webinar or a Virtual Event).
+
+  * Importance: This table helps organizations choose the right venue based on event type and expected attendance. It also allows for efficient management of venue logistics across different countries. Knowing the capacity and location of venues helps in planning events that match the size and location preferences of the attendees, including virtual events.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -143,7 +154,13 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  country | VARCHAR(30) NULL | Country |
 |  online_flag | BIT | 0 = Offline Event, 1 = Online Event |
   
-3. Attendee - 19,972 rows 5 columns
+**3. Attendee**
+
+  * Size: 19,972 rows, 5 columns
+
+  * Purpose: The Attendee table contains information on people who have attended events, including their names and contact details.
+
+  * Importance: This table is vital for keeping in touch with past attendees, sending invitations for future events, and understanding the demographic makeup of event participants. By maintaining accurate records of attendees, companies can build relationships with clients and prospects, improving event outreach and engagement.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -153,18 +170,13 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 | email| VARCHAR(50) NOT NULL | Email |
 | phone | VARCHAR(25) NULL | Phone number |
 
-4. Event_Tickets* - 7,640 rows 4 Columns
+**4. Employee** 
 
-[*Note: This is a special table which gives all the possible combinations of events and ticket types with their associated price. This table has been used later to update ticket price for each attendee and events in Event_Ticket_Assignment table.]
+* Size: 45,017 rows, 6 columns
 
-| Column | Datatype | Description |
-| :--- | :--- | :--- |
-|  event_ID | INT NOT NULL | FOREIGN KEY to the Event table|
-|  ticket_ID | VARCHAR(32) NULL | Unique identifier of ticket |
-|  price | MONEY NOT NULL | Price of the ticket ($) |
-|  ticket_type| VARCHAR(50) NOT NULL | Type of the ticket ('Early-Bird','Student','All-Access','Virtual-Ticket','Group-Ticket','Day-Pass','General-Admission',VIP') |
+* Purpose: The Employee table tracks employees who work for the organizations hosting the events, including their names, job titles, and contact information.
 
-5. Employee - 45,017 rows 6 columns
+* Importance: This table ensures that the right employees are assigned to the right events and tasks, improving the efficiency and success of event management. By having a comprehensive record of employees, organizations can easily manage staff assignments for events, ensuring that all necessary roles are filled.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -175,7 +187,13 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  job_title | VARCHAR(50) NOT NULL | Job title |
 |  email | VARCHAR(50) NOT NULL | Email |
 
-6. Organization - 154 rows 5 columns
+**5. Organization**
+
+  * Size: 154 rows, 5 columns
+  
+  * Purpose: The Organization table lists all organizations that host events, along with their contact details.
+  
+  * Importance: This table is essential for managing which organizations are involved in hosting events and ensuring that each event is tied to a single host organization. This centralized data helps in coordinating event logistics and communication with hosting organizations, simplifying event planning.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -185,7 +203,14 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  email | VARCHAR(50) NOT NULL | Email |
 |  phone | VARCHAR(25) NULL | Phone number |
 
-7. Partner - 183 rows 5 columns
+**6. Partner**
+
+*  Size: 183 rows, 5 columns
+
+*  Purpose: The Partner table records details about partners that provide services for events, such as sponsors, vendors, and marketing partners.
+
+*  Importance: This table is crucial for managing relationships with external partners who contribute to the success of events but are not the primary hosts. By tracking partner involvement, companies can ensure all aspects of an event are covered, from sponsorships to catering, enhancing overall event quality.
+
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -194,14 +219,26 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  email | VARCHAR(50) NOT NULL | Email |
 |  phone | VARCHAR(25) NULL | Phone number |
 
-8. Event_Type - 10 rows 2 columns
+**7. Event_Type**
+
+ * Size: 10 rows, 2 columns
+
+ * Purpose: The Event_Type table categorizes events into types, such as Virtual, In-Person, Conference, Workshop, etc.
+ 
+ * Importance: Understanding the type of event is key to planning the budget, duration, and expected attendance. This classification helps companies tailor their planning and resources to the specific needs of each event type, improving efficiency and effectiveness.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
 |  event_type_ID | INT PRIMARY KEY NOT NULL | Unique Identifier of event_type table |
-|  event_type_name | VARCHAR(50) NULL | Types of events (Virtual, In-Person, Hybrid, Conference, Workshop, Webinar, Seminar, Trade Show, Networking Event, Product Launch) |
+|  event_type_name | VARCHAR(50) NULL | Types of events  |
 
-9. Event_Partner - 1,315 rows 3 columns
+**8. Event_Partner**
+
+*  Size: 1,315 rows, 3 columns
+
+* Purpose: The Event_Partner table links events with their respective partners, including the role each partner plays (e.g. Marketing Partner, Vendor, Sponsor, Catering Partner, Technology Partner etc).
+
+* Importance: This junction table is essential for managing the many-to-many relationships between events and partners, ensuring that all roles are clearly defined and tracked. By keeping track of partner roles, companies can ensure that all necessary services are provided, contributing to the smooth execution of events.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -209,7 +246,13 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  partner_ID | INT NOT NULL | FOREIGN KEY to the Partner table |
 |  role | VARCHAR(50) NOT NULL | Role of the Partner |
 
-10. Event_Employee - 37,107 rows 6 columns
+**9. Event_Employee**
+
+  * Size: 37,107 rows, 6 columns
+
+  * Purpose: The Event_Employee table links employees to the events they work on, including their assigned tasks and task completion status.
+  
+  * Importance: This table is crucial for assigning and tracking employee responsibilities (e.g., Venue setup, Social media promotion, IT support, Security arrangements, Ticketing issues etc), ensuring that all event tasks are completed on time. By monitoring employee involvement, companies can ensure that events are well-staffed and that all tasks are managed effectively.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -220,7 +263,13 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  deadline | DATE NULL | Deadline for the task |
 |  task_completed | BIT NULL | 0 = Not Completed, 1 = Completed |
 
-11. Event_Ticket_Assignment - 3,96,140 rows 7 columns
+**10. Event_Ticket_Assignment**
+
+* Size: 396,140 rows, 7 columns
+
+* Purpose: The Event_Ticket_Assignment table records each ticket issued to attendees, including ticket type, purchase date, and price. There are 8 types of tickets: Early-Bird, Student, All-Access, Virtual-Ticket, Group-Ticket, Day-Pass, General-Admission and VIP and each ticket has its associated price. Such as an VIP ticket will cost higher than a Student Ticket etc.
+
+* Importance: This table is vital for managing ticket sales, tracking revenue, and ensuring that attendees have valid tickets for events. By centralizing ticket data, companies can manage ticket distribution and sales more effectively, improving revenue tracking and attendee management.
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -231,6 +280,23 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  expiry_date | DATE NULL | Expiry date of the ticket |
 |  price | MONEY NULL | Price of the ticket ($) |
 |  ticket_type | VARCHAR(50) NULL | Type of the ticket ('Early-Bird','Student','All-Access','Virtual-Ticket','Group-Ticket','Day-Pass','General-Admission',VIP') |
+
+
+**11. Event_Tickets**
+
+* Size: 7,640 rows, 4 columns
+
+* Purpose: The Event_Tickets table lists all possible combinations of events and ticket types, along with their prices. This table is not used for any joining but is used to insert values in the Event_Ticket_Assignment table, so _it is not included in the ERD Diagram._
+
+* Importance: This reference table is used to update ticket prices in the Event_Ticket_Assignment table, ensuring consistency in pricing. By having a predefined list of ticket prices, companies can streamline the ticketing process, making it easier to manage and update ticket sales across events.
+
+| Column | Datatype | Description |
+| :--- | :--- | :--- |
+|  event_ID | INT NOT NULL | FOREIGN KEY to the Event table|
+|  ticket_ID | VARCHAR(32) NULL | Unique identifier of ticket |
+|  price | MONEY NOT NULL | Price of the ticket ($) |
+|  ticket_type| VARCHAR(50) NOT NULL | Type of the ticket ('Early-Bird','Student','All-Access','Virtual-Ticket','Group-Ticket','Day-Pass','General-Admission',VIP') |
+
 
 ### Part 4 : Optimizing the database by creating index, views, stored procedures and user defined functions 
   
