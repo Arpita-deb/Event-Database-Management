@@ -32,9 +32,9 @@ The primary objective of this event management database is to provide an efficie
 **1. Entities:**
 The entitities and relations between them will give us a **conceptual design** of the database.
   
-  * Event: _event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), budget_estimated, budget_actual, description, start_date, end_date, status, estimated_attendance, actual_attendance_
+  * Event: _event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), estimated_budget, total_expenditure, description, start_date, end_date, status, estimated_attendance, actual_attendance_
   
-  * Venue: _venue_id (pk), capacity, address_line, city, state, zip_code, country_
+  * Venue: _venue_id (pk), capacity, address_line, city, state, postal_code, country, online_flag_
   
   * Attendee: _attendee_id (pk), first_name, last_name, email, phone_
   
@@ -50,7 +50,7 @@ The entitities and relations between them will give us a **conceptual design** o
   
   * Event_Partner Junction: _event_id (fk), partner_id (fk), role_
   
-  * Ticket_Attendee Junction: _ticket_id (fk), attendee_id, purchase_date, expiry_date_
+  * Event_Ticket_Assignment Junction: _ticket_id (fk), attendee_id, event_id, purchase_date, expiry_date, price, ticket_type_
   
   * Event_Employee Junction: _event_id,  employee_id, task, start_date, deadline, task_completed_
   
@@ -123,25 +123,25 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  venue_ID | INT NOT NULL | FOREIGN KEY to the Venue table |
 |  start_date | DATE NOT NULL | Start date of the event |
 |  end_date | DATE NULL | End date of the event |
-|  budget_estimated | MONEY NULL | Estimated budget of the event |
-|  budget_actual | MONEY NULL | Actual budget of the event |
+|  estimated_budget | MONEY NULL | Estimated budget of the event |
+|  total_expenditure | MONEY NULL | Actual budget of the event |
 |  description | TEXT NULL | Optional description / title of the event |
-|  status| VARCHAR(20) NULL | 'Complete', 'Cancelled', 'Scheduled', 'Re-Scheduled' |
+|  status | VARCHAR(20) NULL | 'Complete', 'Cancelled', 'Scheduled', 'Re-Scheduled' |
 |  estimated_attendance | INT NULL | Estimated Number of attendees attended the event |
 |  actual_attendance | INT NULL | Actual Number of attendees attending the event |
   
-2. Venue - 457 rows 8 columns
+2. Venue - 458 rows 8 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
 |  venue_ID | INT PRIMARY KEY NOT NULL | Unique identifier of venue |
 |  capacity | INT NOT NULL | Capacity of the venue (number of people they can accomodate) |
 |  address_line | VARCHAR(60) NULL | Street Address of the venue |
-|  city | VARCHAR(30) NOT NULL | City |
-|  state | VARCHAR(30) NOT NULL | State |
-|  postal_code | VARCHAR(15) NOT NULL | Postal Code |
-|  country | VARCHAR(30) NOT NULL | Country |
-|  OnlineFlag | BIT | 0 = Offline Event, 1 = Online Event |
+|  city | VARCHAR(30) NULL | City |
+|  state | VARCHAR(30) NULL | State |
+|  postal_code | VARCHAR(15) NULL | Postal Code |
+|  country | VARCHAR(30) NULL | Country |
+|  online_flag | BIT | 0 = Offline Event, 1 = Online Event |
   
 3. Attendee - 19,972 rows 5 columns
 
@@ -220,7 +220,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  deadline | DATE NULL | Deadline for the task |
 |  task_completed | BIT NULL | 0 = Not Completed, 1 = Completed |
 
-11. Event_Ticket_Assignment - 4,63,720 rows 7 columns
+11. Event_Ticket_Assignment - 3,96,140 rows 7 columns
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
@@ -234,6 +234,13 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 ### Part 4 : Optimizing the database by creating index, views, stored procedures and user defined functions 
   
+1. Adding clustered and non-clustered indexes in various columns in the tables that are most likely to be queried against and joined with other tables. 
+2. Created a look-up table Calender with Recursive CTE which contain 10 years' dates from Jan 1st, 2014 to Dec 31st, 2024. This table can be joined with Event and Event_Ticket_Assignment tables to perform a range of date calculations.
+
+
+## Summary:
+
+
 
 ## Resources:
 
