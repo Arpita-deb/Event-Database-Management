@@ -337,7 +337,27 @@ Created 4 Views in the database system that facilitates easy and quick analysis 
 
 ## Summary:
 
+1. **Objective Identification**: Defined the database's purpose, including its primary users, and the key functions—reporting, event management, venue tracking, attendee and task organization—to ensure successful event execution.
 
+2. **Requirement Gathering**: Collected all necessary data requirements, focusing on essential entities like event details, host organizations, event dates, locations, partners, budgets, attendees, tickets, and tasks.
+
+3. **Database Creation Process**: Organized the project into four phases, addressing each phase sequentially.
+
+   - **Phase 1: Database Schema Design**: 
+     - Designed the conceptual, logical, and physical database models.
+     - The conceptual model outlined entity relationships, while the logical model defined columns, data types, and junction tables for many-to-many relationships.
+     - The physical design included primary and foreign keys to link entities, with normalization to reduce data redundancy.
+
+   - **Phase 2: Implementation in SQL Server**: 
+     - Created 11 tables using SQL Server's Data Definition Language (DDL).
+
+   - **Phase 3: Data Population**: 
+     - Populated tables with realistic synthetic data, including demographic, geographic, and numerical information (budgets, attendee counts, ticket prices, dates) using Data Manipulation Language (DML). Mockaroo was used to generate random datasets.
+
+   - **Phase 4: Database Optimization**: 
+     - Added clustered and non-clustered indexes for frequently queried columns, views for quicker analysis, and stored procedures and user-defined functions for advanced analytics.
+
+4. **Conclusion**: Highlighted a few limitations and shared resources that aided the case study. All SQL scripts, documentation, and a comprehensive report were uploaded to GitHub.
 
 
 ## Limitations:
