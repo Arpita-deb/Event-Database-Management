@@ -302,7 +302,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
   
 **1. Indexes:**
 
-Adding clustered and non-clustered indexes in various columns in the tables that are most likely to be queried against and joined with other tables. 
+Added Clustered and Non-clustered indexes in various columns in the tables that are most likely to be queried against or joined with other tables. 
 
 **2. Look-up Table:**
 
@@ -310,15 +310,15 @@ Created a look-up table Calender with Recursive CTE which contain 10 years' date
 
 **3. Views:**
 
-Created 4 Views in the database system that facilitates easy and quick analysis without repeatedly joining multiple tables
+Created 4 Views in the database system that facilitates easy and quick analysis without repeatedly joining multiple tables.
 
-   * dbo.EventDetails - S view combining Event, Venue, Attendee, and Event_Type for quickly retrieving event details with attendee and venue info.
+   * dbo.EventDetails - To view combining Event, Venue, Attendee, and Event_Type for quickly retrieving event details with attendee and venue info.
 
-   * EmployeePerEvent - To provide a quick way for analysts to view which employees are assigned to specific events and their tasks
+   * dbo.EmployeePerEvent - To provide a quick way for analysts to view which employees are assigned to specific events and their tasks
 
-   * VenueCapacityLimits - To identify events that are close to their venue capacity limits
+   * dbo.VenueCapacityLimits - To identify events that are close to their venue capacity limits
 
-   * DeadlineTracker - To track and view overdue tasks or tasks close to their deadlines for event employees
+   * dbo.DeadlineTracker - To track and view overdue tasks or tasks close to their deadlines for event employees
 
 **4. User Defined Functions:**
 
