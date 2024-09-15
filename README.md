@@ -214,7 +214,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 | Column | Datatype | Description |
 | :--- | :--- | :--- |
-|  partner_ID | INT PRIMARY KEY  NOT NULL | Unique idenitfier of Partner |
+|  partner_ID | INT PRIMARY KEY  NOT NULL | Unique identifier of Partner |
 |  name | VARCHAR(50) NOT NULL | Name of the Partner |
 |  email | VARCHAR(50) NOT NULL | Email |
 |  phone | VARCHAR(25) NULL | Phone number |
@@ -298,6 +298,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 |  ticket_type| VARCHAR(50) NOT NULL | Type of the ticket ('Early-Bird','Student','All-Access','Virtual-Ticket','Group-Ticket','Day-Pass','General-Admission',VIP') |
 
 
+
 ### Part 4 : Optimizing the database by creating index, views, stored procedures and user defined functions 
   
 1. Adding clustered and non-clustered indexes in various columns in the tables that are most likely to be queried against and joined with other tables. 
@@ -316,7 +317,11 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 4. User Defined Functions
 
+  * dbo.ufnCurrentDate() - An User Defined Function (UDF) that returns the current date and that can be used to calculate the days left for the eevnts to start
+
 5. Table Valued Functions
+
+  * dbo.ufn_EventsByEventType(EventType) - A table-valued function (TVF) to return the number of attendees by event type (provided by the user).
    
 6.  Created 3 Stored Procedures
 
