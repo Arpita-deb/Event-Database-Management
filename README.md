@@ -48,12 +48,6 @@ The entitities and relations between them will give us a **conceptual design** o
   
   * Event_Type: _event_type_id (pk), event_type_name_
   
-  * Event_Partner Junction: _event_id (fk), partner_id (fk), role_
-  
-  * Event_Ticket_Assignment Junction: _ticket_id (fk), attendee_id, event_id, purchase_date, expiry_date, price, ticket_type_
-  
-  * Event_Employee Junction: _event_id,  employee_id, task, start_date, deadline, task_completed_
-  
 **2. Relations:**
 
   * Event with Event_Type: _Many-to-One (M:1)_
@@ -96,11 +90,13 @@ All the tables are normalized upto 3rd normal form. A detailed description of th
 This is the **logical design** of the database.
 ![EventSphere Event Management Database schema](https://github.com/user-attachments/assets/968cc36b-a49c-49f3-9820-fb7c75246be2)
 
+
 ### Part 2 : Implementing the database in SQL Server using Data Definition Language (DDL)
 
 **Creating the database and the tables:**
 
 Using Data Definition Language (DDL), the EventSphere Database and its leaf tables are created. The script is available in the Script folder.
+
 
 ### Part 3 : Populating the database using Data Manipulation Language (DML)
 
@@ -110,7 +106,8 @@ Most of the data is generated through Mockaroo, which enabled me to simulate the
 
 Here in addition to simple INSERT and UPDATE Statements, complex calculations has been performed to generate more data points (in case of 'Event' table). These calculations are used to create records for budget, number of attendees and dates for different type of events (eg. virtual, in person, seminar, product lauch etc).
 
-#### 3. Data Description:
+
+#### Data Description:
 
 **1. Event Table**
 
@@ -301,11 +298,17 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 ### Part 4 : Optimizing the database by creating index, views, stored procedures and user defined functions 
   
-1. Adding clustered and non-clustered indexes in various columns in the tables that are most likely to be queried against and joined with other tables. 
+**1. Indexes:**
 
-2. Created a look-up table Calender with Recursive CTE which contain 10 years' dates from Jan 1st, 2014 to Dec 31st, 2024. This table can be joined with Event and Event_Ticket_Assignment tables to perform a range of date calculations.
+Adding clustered and non-clustered indexes in various columns in the tables that are most likely to be queried against and joined with other tables. 
 
-3. Created 4 Views in the database system that facilitates easy and quick analysis without repeatedly joining multiple tables.
+**2. Look-up Table:**
+
+Created a look-up table Calender with Recursive CTE which contain 10 years' dates from Jan 1st, 2014 to Dec 31st, 2024. This table can be joined with Event and Event_Ticket_Assignment tables to perform a range of date calculations.
+
+**3. Views:**
+
+Created 4 Views in the database system that facilitates easy and quick analysis without repeatedly joining multiple tables.
 
    * dbo.EventDetails - S view combining Event, Venue, Attendee, and Event_Type for quickly retrieving event details with attendee and venue info.
 
@@ -315,23 +318,31 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
    * DeadlineTracker - To track and view overdue tasks or tasks close to their deadlines for event employees
 
-4. User Defined Functions
+**4. User Defined Functions:**
 
   * dbo.ufnCurrentDate() - An User Defined Function (UDF) that returns the current date and that can be used to calculate the days left for the eevnts to start
 
-5. Table Valued Functions
+**5. Table Valued Functions:**
 
   * dbo.ufn_EventsByEventType(EventType) - A table-valued function (TVF) to return the number of attendees by event type (provided by the user).
    
-6.  Created 3 Stored Procedures
+**6.  Created 3 Stored Procedures:**
 
    * dbo.PartnersReport - To provide a list of partners who contributed to events over a certain budget threshold.
    * dbo.TopPerformingTickets - To automate the generation of reports on ticket sales performance (price, type, and sales per event)
    * dbo.BudgetPerformance - To track event budget performance (Estimated vs Actual) across all events efficiently
 
+
 ## Summary:
 
 
+
+
+## Limitations:
+
+1. One important limitation of this database is that for some tables like attendee, event, or tickets its not properly scaled.
+2. There might appear some discrepency in record count when applying aggregate functions or joins.
+3. There is discrepency in actual_attendance from Event table and the count of attendees/tickets from the Ticket_Attendee table which should return the same number of attendees but it doesn't. 
 
 ## Resources:
 
@@ -340,9 +351,3 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 * [What is a Database Schema | Lucidchart](https://www.lucidchart.com/pages/database-diagram/database-schema)
 * [Building an Event Management System: Designing the Blueprint, Crafting the Schema, and Executing with SQL](https://medium.com/@tatibaevmurod/building-an-event-management-system-designing-the-blueprint-crafting-the-schema-and-executing-43ad2e45568e)
 * [Data Modeling: Conceptual vs Logical vs Physical Data Model](https://online.visual-paradigm.com/knowledge/visual-modeling/conceptual-vs-logical-vs-physical-data-model/)
-
-## Limitations:
-
-1. One important limitation of this database is that for some tables like attendee, event, or tickets its not properly scaled.
-2. There might appear some discrepency in record count when applying aggregate functions or joins.
-3. There is discrepency in actual_attendance from Event table and the count of attendees/tickets from the Ticket_Attendee table which should return the same number of attendees but it doesn't. 
