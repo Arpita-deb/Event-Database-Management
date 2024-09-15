@@ -30,6 +30,7 @@ The primary objective of this event management database is to provide an efficie
 ### Part 1 : Database Schema Design
 
 **1. Entities:**
+
 The entitities and relations between them will give us a **conceptual design** of the database.
   
   * Event: _event_id (pk), event_type_id (fk), organization_id (fk), venue_id (fk), estimated_budget, total_expenditure, description, start_date, end_date, status, estimated_attendance, actual_attendance_
@@ -83,6 +84,7 @@ The entitities and relations between them will give us a **conceptual design** o
     Each ticket can be purchased by multiple attendees and each attendee can have multiple tickets. 
 
 **3. Database Normalization:**
+
 All the tables are normalized upto 3rd normal form. A detailed description of the Normalization Process is available [here](https://docs.google.com/document/d/1BYkai8_n01Gea65rLc9-pHJJNjlRuXk4NA_NqB9BUo0/edit?usp=sharing).
 
 **4. Entity Relation Diagram (ERD):**
@@ -308,7 +310,7 @@ Created a look-up table Calender with Recursive CTE which contain 10 years' date
 
 **3. Views:**
 
-Created 4 Views in the database system that facilitates easy and quick analysis without repeatedly joining multiple tables.
+Created 4 Views in the database system that facilitates easy and quick analysis without repeatedly joining multiple tables
 
    * dbo.EventDetails - S view combining Event, Venue, Attendee, and Event_Type for quickly retrieving event details with attendee and venue info.
 
@@ -324,11 +326,11 @@ Created 4 Views in the database system that facilitates easy and quick analysis 
 
 **5. Table Valued Functions:**
 
-  * dbo.ufn_EventsByEventType(EventType) - A table-valued function (TVF) to return the number of attendees by event type (provided by the user).
+  * dbo.ufn_EventsByEventType(EventType) - A TVF to compute the total revenue from tickets across all events per event type
    
 **6.  Created 3 Stored Procedures:**
 
-   * dbo.PartnersReport - To provide a list of partners who contributed to events over a certain budget threshold.
+   * dbo.PartnersReport - To provide a list of partners who contributed to events over a certain budget threshold
    * dbo.TopPerformingTickets - To automate the generation of reports on ticket sales performance (price, type, and sales per event)
    * dbo.BudgetPerformance - To track event budget performance (Estimated vs Actual) across all events efficiently
 
