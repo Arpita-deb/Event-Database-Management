@@ -20,8 +20,8 @@ range to help in tracking and preparing for future events.
 */
 
 SELECT [event_ID],
-		[start_date], 
-		[status]
+	[start_date], 
+	[status]
 FROM 
 	[dbo].[Event]
 WHERE 
@@ -44,7 +44,8 @@ FROM
 	[dbo].[EventDetails]
 WHERE 
 	CAST([Total_expenditure]/[Estimated_budget] AS NUMERIC(36, 2)) >= 0.9
-ORDER BY 4 DESC;
+ORDER BY 
+	4 DESC;
 
 /*
 3. Which tasks assigned to employees are overdue or nearing their deadlines?
@@ -81,16 +82,18 @@ Objective: Check event attendance against venue capacity to avoid overcrowding o
 WITH Registered_Attendee AS
 (
 	SELECT Event_ID = [event_ID]
-			,Registered_Attendees = COUNT([attendee_ID])
-	FROM [dbo].[Event_Ticket_Assignment]
-	GROUP BY [event_ID]
+		,Registered_Attendees = COUNT([attendee_ID])
+	FROM 
+		[dbo].[Event_Ticket_Assignment]
+	GROUP BY 
+		[event_ID]
 ),
 Venue_Capacity AS
 (
 	SELECT [Event_ID],
-			[Venue_Capacity]
+		[Venue_Capacity]
 	FROM 
-			[dbo].[VenueCapacityLimits] -- using the [VenueCapacityLimits] View
+		[dbo].[VenueCapacityLimits] -- using the [VenueCapacityLimits] View
 )
 SELECT RA.Event_ID, 
 	RA.Registered_Attendees, 
@@ -100,7 +103,6 @@ FROM
 	Registered_Attendee RA 
 JOIN 
 	Venue_Capacity VC ON RA.Event_ID = VC.[Event_ID]
--- WHERE VC.[Venue_Capacity] - RA.Registered_Attendees < 0
 
 
 /*
@@ -115,8 +117,8 @@ useful for partner relationship management.
 */
 
 SELECT Event_ID = E.event_ID, 
-		Partner_Name = P.name, 
-		Partner_Role = EP.role
+	Partner_Name = P.name, 
+	Partner_Role = EP.role
 FROM 
 	[dbo].[Event_Partner] EP
 JOIN 
@@ -142,7 +144,7 @@ FROM
 	[dbo].[DeadlineTracker] T 
 JOIN 
 	[dbo].[Employee] E ON T.[Employee_ID] = E.employee_ID
-ORDER BY 1
+ORDER BY 1;
 
 
 
@@ -183,7 +185,7 @@ SELECT DISTINCT [Employee_ID],
 					),
 			1,1,'')
 FROM 
-	[dbo].[EmployeePerEvent] B
+	[dbo].[EmployeePerEvent] B;
 
 
 /*
@@ -194,8 +196,8 @@ Objective: Analyze pricing strategy by determining the average ticket price for 
 */
 
 SELECT [event_ID],
-		[ticket_type],
-		Avg_Ticket_Price = AVG([price])
+	[ticket_type],
+	Avg_Ticket_Price = AVG([price])
 FROM 
 	[dbo].[Event_Ticket_Assignment]
 GROUP BY  
@@ -251,7 +253,7 @@ GROUP BY
 
 
 /*
-12. Which events have the highest actual attendance compared to estimated attendance, and how does that impact the event’s success?
+12. Which events have the highest actual attendance compared to estimated attendance, and how does that impact the eventâ€™s success?
 
 Target User: Event Managers, Executives
 Objective: Analyze attendance figures and compare them to initial estimates to evaluate the success of each event.
