@@ -24,8 +24,8 @@ Therefore, I added only a subset of the employee for each event (between 80 and 
 WITH EmployeeAssignments AS (
     SELECT
         E.event_ID, 
-		E.event_Type_ID, 
-		Emp.job_title,
+	E.event_Type_ID, 
+	Emp.job_title,
         Emp.employee_ID,
         ROW_NUMBER() OVER (PARTITION BY E.event_ID ORDER BY NEWID()) AS RowNum
     FROM 
@@ -35,7 +35,7 @@ WITH EmployeeAssignments AS (
     WHERE 
         E.event_ID IN (SELECT DISTINCT event_ID FROM [EventSphere Database].[dbo].[Event]) AND
 		-- I excluded employees with these job titles as they're most unlikely to be directly working on events
-		Emp.job_title NOT IN ('Janitor', 'Administrative Officer', 'Executive Secretary', 'Chief Executive Officer', 'Chief Financial Officer','Vice President of Engineering', 'Vice President of Production', 'Vice President of Sales' , 'VP Accounting','VP Marketing', 'Director of Sales','VP Product Management','VP Quality Control','VP Sales' , 'Buyer', 'Social Worker')
+	Emp.job_title NOT IN ('Janitor', 'Administrative Officer', 'Executive Secretary', 'Chief Executive Officer', 'Chief Financial Officer','Vice President of Engineering', 'Vice President of Production', 'Vice President of Sales' , 'VP Accounting','VP Marketing', 'Director of Sales','VP Product Management','VP Quality Control','VP Sales' , 'Buyer', 'Social Worker')
 
 )
 
@@ -49,7 +49,7 @@ FROM
     EmployeeAssignments EA
 WHERE 
     EA.RowNum <= (SELECT CAST(RAND(CHECKSUM(NEWID())) * (60 - 15) + 10 AS INT))
-	AND EA.event_type_ID IN (203, 201, 202, 207); -- based on event type, employee number is changed between the range of 10 - 60
+    AND EA.event_type_ID IN (203, 201, 202, 207); -- based on event type, employee number is changed between the range of 10 - 60
 
 
 
