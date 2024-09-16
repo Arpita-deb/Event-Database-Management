@@ -40,8 +40,8 @@ INSERT INTO Event_Tickets (event_ID, ticket_ID, ticket_type, price)
 SELECT 
     e.event_ID, 
     CAST(e.event_ID AS VARCHAR) + ' - ' + t.ticket_type,
-	t.ticket_type,
-	t.Price
+    t.ticket_type,
+    t.Price
 FROM 
     Event e
 CROSS JOIN 
