@@ -1,7 +1,6 @@
 # Event Management Database Design
 
-![Title](https://github.com/user-attachments/assets/db6668cd-2c9a-465c-b863-fa0d1a29c251)
-
+![Purple Minimalist Brush Personal LinkedIn Banner](https://github.com/user-attachments/assets/a58137a8-5e4d-45d3-a631-a2c563a58a22)
 
 ## Introduction:
 
