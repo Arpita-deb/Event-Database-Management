@@ -171,7 +171,7 @@ Here in addition to simple INSERT and UPDATE Statements, complex calculations ha
 
 **4. Employee** 
 
-* Size: 45,017 rows, 6 columns
+* Size: 647 rows, 6 columns
 
 * Purpose: The Employee table tracks employees who work for the organizations hosting the events, including their names, job titles, and contact information.
 
