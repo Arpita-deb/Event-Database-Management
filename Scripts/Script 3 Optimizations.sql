@@ -257,7 +257,7 @@ ORDER BY
 	Percent_of_Venue_capacity DESC;
 
 /*
-4. What’s the best way to track and view overdue tasks or tasks close to their deadlines for event employees?
+4. Whatâ€™s the best way to track and view overdue tasks or tasks close to their deadlines for event employees?
 Suggestion: A view or function that returns all tasks where the Deadline is past or within a specific timeframe (e.g., 7 days) and are marked as incomplete.
 */
 
@@ -268,8 +268,8 @@ SELECT EventID = [event_ID]
       ,Task = [task]
       , Start_date = [start_date]
       ,Deadline = [deadline]
-	  , Days_to_deadline = DATEDIFF(DAY,[start_date], [deadline])
-	  , Status = CASE WHEN [task_completed] = 0 THEN 'Incomplete' ELSE 'Complete' END
+      , Days_to_deadline = DATEDIFF(DAY,[start_date], [deadline])
+      , Status = CASE WHEN [task_completed] = 0 THEN 'Incomplete' ELSE 'Complete' END
 FROM 
 	[EventSphere Database].[dbo].[Event_Employee]
 
@@ -310,13 +310,13 @@ END
 
 
 SELECT [event_ID],
-		[start_date],
-		Days_remained = DATEDIFF(DAY, Today,[start_date]) -- days left for the events to start
+       [start_date],
+       Days_remained = DATEDIFF(DAY, Today,[start_date]) -- days left for the events to start
 FROM
 (
 		SELECT *, 
-				Today = dbo.ufnCurrentDate(), -- calling the UDF
-				Last_event_date = MAX([start_date]) OVER() -- last event date in the database
+			Today = dbo.ufnCurrentDate(), -- calling the UDF
+			Last_event_date = MAX([start_date]) OVER() -- last event date in the database
 		FROM [dbo].[Event]
 ) C
 WHERE 
@@ -326,7 +326,7 @@ ORDER BY 3;
 
 
 /*
-2. What’s the best way to compute the total revenue from tickets across all events per event type?
+2. Whatâ€™s the best way to compute the total revenue from tickets across all events per event type?
 Suggestion: Use a table-valued function (TVF) to return the event_ID, host organization, total revenue from tickets along with its start and ebd date.
 */
 
@@ -366,8 +366,10 @@ SELECT DISTINCT Host,
 	Total_Revenue = SUM(Total_revenue_from_tickets) OVER(PARTITION BY Host),
 	Overall_Revenue = SUM(Total_revenue_from_tickets) OVER(),
 	[Percent of Overall_Revenue] = FORMAT(SUM(Total_revenue_from_tickets) OVER(PARTITION BY Host) / SUM(Total_revenue_from_tickets) OVER(), 'p')
-FROM ufn_EventsByEventType('Seminar')
-ORDER BY 4 DESC
+FROM 
+	ufn_EventsByEventType('Seminar')
+ORDER BY 
+	4 DESC;
 
 
 
@@ -480,7 +482,7 @@ BEGIN
 						[estimated_budget] < [total_expenditure] 
 					THEN 1
 					ELSE 0
-				END
+				  END
 		FROM
 			[dbo].[Event]
 
