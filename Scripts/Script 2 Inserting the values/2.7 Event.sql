@@ -1119,14 +1119,14 @@ WITH CTE AS ( -- This part selects the rows and calculates the row number and to
         COUNT(*) OVER () AS TotalRows
     FROM 
         [dbo].[Event]
-	WHERE 
-		[event_Type_ID] = [insert event_type_id] -- insert 1
+    WHERE 
+	[event_Type_ID] = ['insert event_type_id'] -- insert 1
 )
 UPDATE CTE
 SET [end_date] = CASE 
                     WHEN RowNum <= (TotalRows * 55 / 100) THEN DATEADD(DAY, 4, [start_date]) -- Can change the end date value here
-					WHEN RowNum <= (TotalRows * 80 / 100) THEN DATEADD(DAY, 2, [start_date]) -- Can change the end date value here
-					ELSE DATEADD(DAY,3, [start_date])-- Can change the end date value here
+		    WHEN RowNum <= (TotalRows * 80 / 100) THEN DATEADD(DAY, 2, [start_date]) -- Can change the end date value here
+		    ELSE DATEADD(DAY,3, [start_date])-- Can change the end date value here
                  END;
 
 
@@ -1134,10 +1134,10 @@ SET [end_date] = CASE
 -- Update estimated_budget with random values
 UPDATE [dbo].[Event]
 SET 
-    [estimated_budget] = ROUND([minimum value] + (ABS(CHECKSUM(NEWID())) % ([maximum value] - [minimum value] + 1)), 0) -- insert 2
+    [estimated_budget] = ROUND(['minimum value'] + (ABS(CHECKSUM(NEWID())) % (['maximum value'] - ['minimum value'] + 1)), 0) -- insert 2
 	-- The CHECKSUM(NEWID()) function is used to generate random values. The ABS() function ensures positive values, and the modulus operator % is used to confine the random values within the specified range (minimum and maximum values).
 WHERE 
-	[event_Type_ID] = [insert event_type_id] -- insert 1;
+	[event_Type_ID] = ['insert event_type_id'] -- insert 1;
 
 
 
@@ -1145,10 +1145,10 @@ WHERE
 -- Update estimated_attendance with random values
 UPDATE [dbo].[Event]
 SET 
-    [estimated_attendance] = ROUND([minimum value] + (ABS(CHECKSUM(NEWID())) %([maximum value] - [minimum value] + 1)), 0) --insert 3
+    [estimated_attendance] = ROUND(['minimum value'] + (ABS(CHECKSUM(NEWID())) %(['maximum value'] - ['minimum value'] + 1)), 0) --insert 3
 	-- The CHECKSUM(NEWID()) function is used to generate random values. The ABS() function ensures positive values, and the modulus operator % is used to confine the random values within the specified range (minimum and maximum values).
 WHERE 
-	[event_Type_ID] = [insert event_type_id] -- insert 1;
+	[event_Type_ID] = ['insert event_type_id'] -- insert 1;
 
 
 
@@ -1181,8 +1181,8 @@ SET
                         (1 + 
                         ((CAST(ABS(CHECKSUM(NEWID())) % 5 AS FLOAT) / 100.0) * -- can change the % of values here
                         CASE WHEN ABS(CHECKSUM(NEWID())) % 2 = 0 THEN 1 ELSE -1 END)), 0) -- can change the % of values here
- WHERE [event_Type_ID] = [insert event_type_id] -- insert 1
- ;
+	WHERE [event_Type_ID] = ['insert event_type_id'] -- insert 1
+;
 
 
 -- Update actual_attendance based on estimated_attendance with a variation of 0% to 5%
@@ -1192,7 +1192,7 @@ SET
                             (1 + 
                             ((CAST(ABS(CHECKSUM(NEWID())) % 5 AS FLOAT) / 100.0) * -- can change the % of values here
                             CASE WHEN ABS(CHECKSUM(NEWID())) % 2 = 0 THEN 1 ELSE -1 END)), 0)-- can change the % of values here
- WHERE [event_Type_ID] = [insert event_type_id] -- insert 1
+WHERE [event_Type_ID] = ['insert event_type_id'] -- insert 1
 ;
 
 
@@ -1209,20 +1209,19 @@ WITH CTE AS (
 UPDATE CTE
 SET Status = CASE 
                     WHEN RowNum <= (TotalRows * 60 / 100) THEN 'Completed' 
-					WHEN RowNum <= (TotalRows * 75 / 100) THEN 'Cancelled'
-					ELSE 'Rescheduled'
+		    WHEN RowNum <= (TotalRows * 75 / 100) THEN 'Cancelled'
+		    ELSE 'Rescheduled'
               END; 
  
 
 -- Since for cancelled events there would be no actual_attendance and total_expenditure, so I'll set them to 0
 UPDATE [dbo].[Event]
 SET [actual_attendance] = 0
-WHERE [status] = 'Cancelled'
+WHERE [status] = 'Cancelled';
 
 UPDATE [dbo].[Event]
 SET [total_expenditure] = 0
-WHERE [status] = 'Cancelled'
-
+WHERE [status] = 'Cancelled';
 
 
 -- Adjusting the capacity of venues based on estimated_attendance of event table 
