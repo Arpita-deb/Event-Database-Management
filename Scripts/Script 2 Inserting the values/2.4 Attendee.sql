@@ -17,21 +17,19 @@ USE [EventSphere Database];
 -- Inserting first_name, last_name, email and phone number from AdventureWorks Database Tables (Person,EmailAddress & PersonPhone) into the Attendee table
 
 INSERT INTO [EventSphere Database].dbo.Attendee
-(	first_name
+(   first_name
     ,last_name
     ,email
     ,phone
 )
 SELECT  FirstName AS first_name,
-		LastName AS last_name,
-		EmailAddress AS email,
-		PhoneNumber AS phone
+	LastName AS last_name,
+	EmailAddress AS email,
+	PhoneNumber AS phone
 FROM [AdventureWorks2022].[Person].[Person] P 
 JOIN [AdventureWorks2022].[Person].[EmailAddress] E ON P.[BusinessEntityID] = E.[BusinessEntityID]
 JOIN [AdventureWorks2022].[Person].[PersonPhone] PH ON P.BusinessEntityID = PH.BusinessEntityID
 ;
-
-
 
 -- Setting the phone Null for a few random attendees
 
