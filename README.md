@@ -1,10 +1,17 @@
 # Event Management Database Design
 
+![Title](https://github.com/user-attachments/assets/db6668cd-2c9a-465c-b863-fa0d1a29c251)
+
+
 ## Introduction:
+
+### About the company:
+
+EventSphere Solutions is a mid-sized corporate event management company specializing in organizing internal conferences, product launches, training sessions, and corporate retreats for large enterprises. The company handles multiple events simultaneously, with each event having its own set of tasks, attendees, and specific requirements.
 
 ### Business Problem:
 
-EventSphere Solutions is a mid-sized corporate event management company specializing in organizing internal conferences, product launches, training sessions, and corporate retreats for large enterprises. The company handles multiple events simultaneously, with each event having its own set of tasks, attendees, and specific requirements. To streamline operations and ensure all details are properly tracked, CorpEvent Solutions needs a centralized database to manage all aspects of their events.
+To streamline operations and ensure all details are properly tracked, CorpEvent Solutions needs a centralized database to manage all aspects of their events.
 
 ### Objectives:
 
@@ -18,7 +25,7 @@ The primary objective of this event management database is to provide an efficie
 4. Task Managers: Oversees specific event-related tasks such as catering, technical setup, or guest coordination.
 5. Executives: May require access to high-level reports and summaries of event performance, attendance, and financials.
 
-### Methodologies:
+### Procedure:
 
 * Part 1 : Database Schema Design
 * Part 2 : Implementing the database in SQL Server using Data Definition Language (DDL)
