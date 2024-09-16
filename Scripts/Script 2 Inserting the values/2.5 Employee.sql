@@ -421,13 +421,13 @@ INSERT INTO [EventSphere Database].[dbo].[Employee]
 (
 	organization_ID,
 	first_name,
-    last_name,
+        last_name,
 	job_title,
-    email
+        email
 )
 SELECT
     -- Selecting a random organization_ID that exists in the Organization table
-    O.organization_ID,
+        O.organization_ID,
 	P.FirstName,
 	P.LastName,
 	EM.JobTitle,
@@ -457,11 +457,11 @@ SELECT [first_name],
 	[email],
 	employee_count = COUNT([employee_ID]) OVER(PARTITION BY [first_name],[last_name],[job_title],[email]),
 	rn = ROW_NUMBER() OVER(PARTITION BY [first_name],[last_name],[job_title],[email] ORDER BY [employee_ID]) -- Row number gives ranks to each employee with the same information
-FROM [dbo].[Employee]
+FROM 
+	[dbo].[Employee]
 )
 DELETE
 FROM CTE
 WHERE rn > 1 -- keeping only one record (of rank 1) and removing the rest
-
 
 SELECT * FROM Employee;
