@@ -20,8 +20,8 @@ range to help in tracking and preparing for future events.
 */
 
 SELECT [event_ID],
-		[start_date], 
-		[status]
+	[start_date], 
+	[status]
 FROM 
 	[dbo].[Event]
 WHERE 
@@ -81,15 +81,17 @@ WITH Registered_Attendee AS
 (
 	SELECT Event_ID = [event_ID]
 		,Registered_Attendees = COUNT([attendee_ID])
-	FROM [dbo].[Event_Ticket_Assignment]
-	GROUP BY [event_ID]
+	FROM 
+		[dbo].[Event_Ticket_Assignment]
+	GROUP BY 
+		[event_ID]
 ),
 Venue_Capacity AS
 (
 	SELECT [Event_ID],
-			[Venue_Capacity]
+		[Venue_Capacity]
 	FROM 
-			[dbo].[VenueCapacityLimits] -- using the [VenueCapacityLimits] View
+		[dbo].[VenueCapacityLimits] -- using the [VenueCapacityLimits] View
 )
 SELECT RA.Event_ID, 
 	RA.Registered_Attendees, 
@@ -114,8 +116,8 @@ useful for partner relationship management.
 */
 
 SELECT Event_ID = E.event_ID, 
-		Partner_Name = P.name, 
-		Partner_Role = EP.role
+	Partner_Name = P.name, 
+	Partner_Role = EP.role
 FROM 
 	[dbo].[Event_Partner] EP
 JOIN 
@@ -177,17 +179,17 @@ SELECT DISTINCT [Employee_ID],
 	[Employee_name],
 	Event_counts = COUNT([Event_ID]) OVER(PARTITION BY [Employee_ID],[Employee_name]),
 	Tasks = STUFF(
-					(
-						SELECT ', ' + [Task]
-						FROM [dbo].[EmployeePerEvent] A
-						WHERE A.[employee_ID]= B.Employee_ID
-						FOR XML PATH('')
-					),
-			1,1,'')
+			(
+				SELECT ', ' + [Task]
+				FROM [dbo].[EmployeePerEvent] A
+				WHERE A.[employee_ID]= B.Employee_ID
+				FOR XML PATH('')
+			),
+		1,1,'')
 FROM 
 	[dbo].[EmployeePerEvent] B
 ) C
-WHERE Event_counts> 1
+WHERE Event_counts > 1
 
 /*
 9. What is the average ticket price for each event, broken down by ticket type?
@@ -197,8 +199,8 @@ Objective: Analyze pricing strategy by determining the average ticket price for 
 */
 
 SELECT [event_ID],
-		[ticket_type],
-		Avg_Ticket_Price = AVG([price])
+	[ticket_type],
+	Avg_Ticket_Price = AVG([price])
 FROM 
 	[dbo].[Event_Ticket_Assignment]
 GROUP BY  
@@ -252,7 +254,7 @@ GROUP BY
 
 
 /*
-12. Which events have the highest actual attendance compared to estimated attendance, and how does that impact the event’s success?
+12. Which events have the highest actual attendance compared to estimated attendance, and how does that impact the eventâ€™s success?
 
 Target User: Event Managers, Executives
 Objective: Analyze attendance figures and compare them to initial estimates to evaluate the success of each event.
